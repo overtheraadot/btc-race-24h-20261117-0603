@@ -21,8 +21,11 @@
 // slippage and pool impact on this window's depth, so the take-profit has to be
 // well above that. On the published dev window the 170-190 bp take-profit band
 // with a 60-bar, 100 bp entry dip is a flat neighbourhood (all nearby settings
-// land within a few dollars of each other), and 185 bp sits in its middle rather
-// than on the edge where 195 bp already misses a recovery. A trailing-high dip
+// land within a few dollars of each other), and 190 bp sits at the top of that
+// band: it banks a little more on each recovery that reaches it, while 195 bp
+// already misses a recovery. A max-hold give-up was also tried and reverted:
+// exiting a position after 360 bars cut a recovery short and cost ~$4.69 on
+// the dev window, so the bot holds until the take-profit or the hard stop. A trailing-high dip
 // definition, a scale-in ladder, partial exits, trailing stops and an SMA regime
 // filter were all tried on the dev window and all scored worse, so none of them
 // is in the bot: the entries happen exactly when the price is below its moving
@@ -36,7 +39,7 @@ const DIP_BPS = 100n;
 /** Bars back the fall is measured over. */
 const LOOKBACK_BARS = 60;
 /** The gain, in bps over the average fill price, that sells the position. */
-const TP_BPS = 185n;
+const TP_BPS = 190n;
 /** The loss, in bps under the average fill price, that stops the position out. */
 const STOP_BPS = 300n;
 /** Orders refuse a fill further than this past the close they were decided on. */
